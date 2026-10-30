@@ -1,0 +1,24 @@
+{
+  "name": "portaldoaluno",
+  "version": "1.0.0",
+  "description": "Portal do Aluno: Plataforma de Cursos e Matrículas; API RESTful para gerenciamento de cursos e matrículas, desenvolvida com Node.js, Express, Bash e Linux Debian como Projeto Final Integrador",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardaksantos/portaldoaluno.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eduardaksantos/portaldoaluno/issues"
+  },
+  "homepage": "https://github.com/eduardaksantos/portaldoaluno#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
