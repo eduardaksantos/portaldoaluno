@@ -1,53 +1,44 @@
-// ============================================================
+// ================================================================
 // PORTAL DO ALUNO - API de Cursos e Matrículas
-// Projeto Final Integrador - Back-End 1 (PBE1)
-// ============================================================
+// ================================================================
 
-// 1) Importa o Express (biblioteca que cria o servidor web)
 const express = require('express');
-
-// 2) Cria a aplicação
 const app = express();
 
-// 3) Permite que a API entenda JSON enviado no corpo (body) das requisições
+// Permite que a API entenda JSON enviado no corpo (body) das requisições
 app.use(express.json());
 
-// ============================================================
-// BANCO DE DADOS EM MEMÓRIA
-// São apenas listas (arrays). Ao reiniciar o servidor, tudo some.
-// ============================================================
+// ---------------- BANCO DE DADOS EM MEMÓRIA ----------------
+// Listas (arrays). Ao reiniciar o servidor, tudo é apagado.
 const cursos = [];
 const matriculas = [];
 
-// Contadores para gerar o ID de cada novo registro
+// Guardam o ID do próximo registro
 let proximoIdCurso = 1;
 let proximoIdMatricula = 1;
 
-// ============================================================
-// ROTAS DE CURSOS
-// Campos: nome, descricao, cargaHoraria, status (ATIVO ou ENCERRADO)
-// ============================================================
 
-// GET /cursos -> lista todos os cursos
-// Aceita filtro opcional: /cursos?status=ATIVO
+// ================================================================
+// CURSOS: id, nome, descricao, cargaHoraria, status (ATIVO | ENCERRADO)
+// ================================================================
+
+// GET /cursos -> lista (filtro opcional: ?status=ATIVO)
 app.get('/cursos', (req, res) => {
-  const status = req.query.status; // pega o ?status= da URL
+  const status = req.query.status;
 
-  // Se veio um status, filtra a lista. Se não, devolve tudo.
   if (status) {
-    const filtrados = cursos.filter((curso) => curso.status === status.toUpperCase());
+    const filtrados = cursos.filter((c) => c.status === status.toUpperCase());
     return res.status(200).json(filtrados);
   }
 
   res.status(200).json(cursos);
 });
 
-// GET /cursos/:id -> busca um curso pelo ID
+// GET /cursos/:id -> busca um curso
 app.get('/cursos/:id', (req, res) => {
-  const id = Number(req.params.id); // o id vem da URL como texto, converte para número
+  const id = Number(req.params.id);
   const curso = cursos.find((c) => c.id === id);
 
-  // Se não achou, responde 404
   if (!curso) {
     return res.status(404).json({ erro: 'Curso não encontrado' });
   }
@@ -55,18 +46,17 @@ app.get('/cursos/:id', (req, res) => {
   res.status(200).json(curso);
 });
 
-// POST /cursos -> cria um curso novo
+// POST /cursos -> cria um curso
 app.post('/cursos', (req, res) => {
   const body = req.body || {};
 
-  // Validação: todos os campos são obrigatórios. Se faltar, responde 400.
+  // Todos os campos são obrigatórios (senão, 400)
   if (!body.nome || !body.descricao || !body.cargaHoraria || !body.status) {
     return res.status(400).json({
       erro: 'Campos obrigatórios: nome, descricao, cargaHoraria, status',
     });
   }
 
-  // Monta o novo curso
   const novoCurso = {
     id: proximoIdCurso,
     nome: body.nome,
@@ -75,13 +65,13 @@ app.post('/cursos', (req, res) => {
     status: body.status.toUpperCase(),
   };
 
-  proximoIdCurso = proximoIdCurso + 1; // prepara o próximo ID
-  cursos.push(novoCurso);              // salva na lista
+  proximoIdCurso = proximoIdCurso + 1;
+  cursos.push(novoCurso);
 
-  res.status(201).json(novoCurso);     // 201 = criado
+  res.status(201).json(novoCurso);
 });
 
-// PUT /cursos/:id -> substitui TODOS os campos do curso
+// PUT /cursos/:id -> substitui TODOS os campos
 app.put('/cursos/:id', (req, res) => {
   const id = Number(req.params.id);
   const curso = cursos.find((c) => c.id === id);
@@ -91,7 +81,6 @@ app.put('/cursos/:id', (req, res) => {
     return res.status(404).json({ erro: 'Curso não encontrado' });
   }
 
-  // No PUT, todos os campos são obrigatórios
   if (!body.nome || !body.descricao || !body.cargaHoraria || !body.status) {
     return res.status(400).json({ erro: 'PUT exige todos os campos' });
   }
@@ -104,7 +93,7 @@ app.put('/cursos/:id', (req, res) => {
   res.status(200).json(curso);
 });
 
-// PATCH /cursos/:id -> atualiza SÓ os campos enviados
+// PATCH /cursos/:id -> altera SÓ os campos enviados
 app.patch('/cursos/:id', (req, res) => {
   const id = Number(req.params.id);
   const curso = cursos.find((c) => c.id === id);
@@ -114,12 +103,10 @@ app.patch('/cursos/:id', (req, res) => {
     return res.status(404).json({ erro: 'Curso não encontrado' });
   }
 
-  // Precisa vir pelo menos um campo
   if (!body.nome && !body.descricao && !body.cargaHoraria && !body.status) {
     return res.status(400).json({ erro: 'Envie ao menos um campo para atualizar' });
   }
 
-  // Só altera o que foi enviado
   if (body.nome) curso.nome = body.nome;
   if (body.descricao) curso.descricao = body.descricao;
   if (body.cargaHoraria) curso.cargaHoraria = body.cargaHoraria;
@@ -128,29 +115,162 @@ app.patch('/cursos/:id', (req, res) => {
   res.status(200).json(curso);
 });
 
-// DELETE /cursos/:id -> remove o curso
+// DELETE /cursos/:id -> apaga um curso
 app.delete('/cursos/:id', (req, res) => {
   const id = Number(req.params.id);
-  const posicao = cursos.findIndex((c) => c.id === id); // posição na lista
+  const posicao = cursos.findIndex((c) => c.id === id);
 
-  // findIndex devolve -1 quando não encontra
   if (posicao === -1) {
     return res.status(404).json({ erro: 'Curso não encontrado' });
   }
 
-  cursos.splice(posicao, 1); // remove 1 item daquela posição
+  cursos.splice(posicao, 1);
+
   res.status(200).json({ mensagem: 'Curso removido com sucesso' });
 });
 
-// ============================================================
-// ROTAS DE MATRÍCULAS
-// (serão adicionadas no Passo 4)
-// ============================================================
 
-// ============================================================
-// INICIA O SERVIDOR
-// ============================================================
+// ================================================================
+// MATRÍCULAS: id, cursoId, aluno, email, status (ATIVA | CANCELADA | CONCLUIDA)
+// O "cursoId" liga a matrícula a um curso (um curso tem várias matrículas)
+// ================================================================
+
+// GET /matriculas -> lista (filtros opcionais: ?status=ATIVA e ?cursoId=1)
+app.get('/matriculas', (req, res) => {
+  const status = req.query.status;
+  const cursoId = req.query.cursoId;
+  let resultado = matriculas;
+
+  if (status) {
+    resultado = resultado.filter((m) => m.status === status.toUpperCase());
+  }
+
+  if (cursoId) {
+    resultado = resultado.filter((m) => m.cursoId === Number(cursoId));
+  }
+
+  res.status(200).json(resultado);
+});
+
+// GET /matriculas/:id -> busca uma matrícula
+app.get('/matriculas/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const matricula = matriculas.find((m) => m.id === id);
+
+  if (!matricula) {
+    return res.status(404).json({ erro: 'Matrícula não encontrada' });
+  }
+
+  res.status(200).json(matricula);
+});
+
+// POST /matriculas -> cria uma matrícula
+app.post('/matriculas', (req, res) => {
+  const body = req.body || {};
+
+  if (!body.cursoId || !body.aluno || !body.email || !body.status) {
+    return res.status(400).json({
+      erro: 'Campos obrigatórios: cursoId, aluno, email, status',
+    });
+  }
+
+  // O curso informado precisa existir
+  const curso = cursos.find((c) => c.id === Number(body.cursoId));
+  if (!curso) {
+    return res.status(404).json({ erro: 'Curso informado não existe' });
+  }
+
+  const novaMatricula = {
+    id: proximoIdMatricula,
+    cursoId: Number(body.cursoId),
+    aluno: body.aluno,
+    email: body.email,
+    status: body.status.toUpperCase(),
+  };
+
+  proximoIdMatricula = proximoIdMatricula + 1;
+  matriculas.push(novaMatricula);
+
+  res.status(201).json(novaMatricula);
+});
+
+// PUT /matriculas/:id -> substitui TODOS os campos
+app.put('/matriculas/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const matricula = matriculas.find((m) => m.id === id);
+  const body = req.body || {};
+
+  if (!matricula) {
+    return res.status(404).json({ erro: 'Matrícula não encontrada' });
+  }
+
+  if (!body.cursoId || !body.aluno || !body.email || !body.status) {
+    return res.status(400).json({ erro: 'PUT exige todos os campos' });
+  }
+
+  const curso = cursos.find((c) => c.id === Number(body.cursoId));
+  if (!curso) {
+    return res.status(404).json({ erro: 'Curso informado não existe' });
+  }
+
+  matricula.cursoId = Number(body.cursoId);
+  matricula.aluno = body.aluno;
+  matricula.email = body.email;
+  matricula.status = body.status.toUpperCase();
+
+  res.status(200).json(matricula);
+});
+
+// PATCH /matriculas/:id -> altera SÓ os campos enviados
+app.patch('/matriculas/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const matricula = matriculas.find((m) => m.id === id);
+  const body = req.body || {};
+
+  if (!matricula) {
+    return res.status(404).json({ erro: 'Matrícula não encontrada' });
+  }
+
+  if (!body.cursoId && !body.aluno && !body.email && !body.status) {
+    return res.status(400).json({ erro: 'Envie ao menos um campo para atualizar' });
+  }
+
+  // Se trocar de curso, o novo curso também precisa existir
+  if (body.cursoId) {
+    const curso = cursos.find((c) => c.id === Number(body.cursoId));
+    if (!curso) {
+      return res.status(404).json({ erro: 'Curso informado não existe' });
+    }
+    matricula.cursoId = Number(body.cursoId);
+  }
+
+  if (body.aluno) matricula.aluno = body.aluno;
+  if (body.email) matricula.email = body.email;
+  if (body.status) matricula.status = body.status.toUpperCase();
+
+  res.status(200).json(matricula);
+});
+
+// DELETE /matriculas/:id -> apaga uma matrícula
+app.delete('/matriculas/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const posicao = matriculas.findIndex((m) => m.id === id);
+
+  if (posicao === -1) {
+    return res.status(404).json({ erro: 'Matrícula não encontrada' });
+  }
+
+  matriculas.splice(posicao, 1);
+
+  res.status(200).json({ mensagem: 'Matrícula removida com sucesso' });
+});
+
+
+// ================================================================
+// LIGA O SERVIDOR
+// ================================================================
 const PORT = 4000;
+
 app.listen(PORT, () => {
   console.log(`Portal do Aluno rodando em http://localhost:${PORT}`);
 });
