@@ -1,0 +1,219 @@
+==================================================
+  INICIANDO TESTES AUTOMATIZADOS - PORTAL DO ALUNO
+  Servidor ativo na porta: 4000
+==================================================
+
+[1/7] POST /cursos - Cadastrando os 5 Cursos Oficiais...
+{
+  "id": 8,
+  "nome": "DEV",
+  "descricao": "Desenvolvimento de Sistemas",
+  "cargaHoraria": 400,
+  "status": "ATIVO"
+}
+{
+  "id": 9,
+  "nome": "Instrumentação",
+  "descricao": "Instrumentação Industrial",
+  "cargaHoraria": 300,
+  "status": "ATIVO"
+}
+{
+  "id": 10,
+  "nome": "Petroquímica",
+  "descricao": "Processos Petroquímicos",
+  "cargaHoraria": 360,
+  "status": "ATIVO"
+}
+{
+  "id": 11,
+  "nome": "Química",
+  "descricao": "Química Industrial",
+  "cargaHoraria": 320,
+  "status": "ATIVO"
+}
+{
+  "id": 12,
+  "nome": "Eletroeletrônica",
+  "descricao": "Sistemas Eletroeletrônicos",
+  "cargaHoraria": 400,
+  "status": "ATIVO"
+}
+
+[2/7] GET /cursos - Listando todos os cursos cadastrados...
+[
+  {
+    "id": 1,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 2,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 3,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de Software",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 4,
+    "nome": "Instrumentação",
+    "descricao": "Instrumentação Industrial",
+    "cargaHoraria": 300,
+    "status": "ATIVO"
+  },
+  {
+    "id": 5,
+    "nome": "Petroquímica",
+    "descricao": "Processos Petroquímicos",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 6,
+    "nome": "Química",
+    "descricao": "Química Industrial",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 7,
+    "nome": "Eletroeletrônica",
+    "descricao": "Sistemas Eletroeletrônicos",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 8,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de Sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 9,
+    "nome": "Instrumentação",
+    "descricao": "Instrumentação Industrial",
+    "cargaHoraria": 300,
+    "status": "ATIVO"
+  },
+  {
+    "id": 10,
+    "nome": "Petroquímica",
+    "descricao": "Processos Petroquímicos",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 11,
+    "nome": "Química",
+    "descricao": "Química Industrial",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 12,
+    "nome": "Eletroeletrônica",
+    "descricao": "Sistemas Eletroeletrônicos",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  }
+]
+
+[3/7] POST /matriculas - Cadastrando Matrículas das alunas...
+{
+  "id": 8,
+  "cursoId": 1,
+  "aluno": "Eduarda Kramer dos Santos",
+  "email": "eduarda@email.com",
+  "status": "ATIVA"
+}
+{
+  "id": 9,
+  "cursoId": 3,
+  "aluno": "Emily Sibia de Paula",
+  "email": "emily@email.com",
+  "status": "ATIVA"
+}
+
+[4/7] GET /matriculas?cursoId=1 - Consultando matrículas do curso DEV...
+[
+  {
+    "id": 1,
+    "cursoId": 1,
+    "aluno": "Emily Sibia",
+    "email": "emily@email.com",
+    "status": "CANCELADA"
+  },
+  {
+    "id": 2,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 3,
+    "cursoId": 1,
+    "aluno": "QUALQUER NOME",
+    "email": "qualquer@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 4,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 5,
+    "cursoId": 1,
+    "aluno": "Emily Sibia",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 6,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 8,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  }
+]
+
+[5/7] PATCH /matriculas/1 - Atualizando status da matrícula de Eduarda...
+{
+  "id": 1,
+  "cursoId": 1,
+  "aluno": "Emily Sibia",
+  "email": "emily@email.com",
+  "status": "CANCELADA"
+}
+
+[6/7] TESTE DE ERRO (HTTP 400 Bad Request) - Requisição incompleta...
+{"erro":"Campos obrigatórios: cursoId, aluno, email, status"}
+HTTP Status: 400
+
+[7/7] TESTE DE ERRO (HTTP 404 Not Found) - Curso inexistente...
+{"erro":"Curso não encontrado"}
+HTTP Status: 404
+
+==================================================
+  TESTES NA PORTA 4000 FINALIZADOS COM SUCESSO
+==================================================
