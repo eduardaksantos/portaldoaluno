@@ -11,7 +11,7 @@ Portal do Aluno: Plataforma de Cursos e Matrículas; API RESTful para gerenciame
 
 Pré-requisitos
 
-bash
+```bash
 sudo apt update
 sudo apt install -y nodejs npm curl jq git
 
@@ -45,7 +45,7 @@ chmod +x testes_automacao.sh
 ./testes_automacao.sh > resultado_execucao.log
 cat resultado_execucao.log
 ```
-
+```
 # Cadastrar um curso
 curl -s -X POST http://localhost:4000/cursos \
   -H "Content-Type: application/json" \
