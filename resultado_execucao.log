@@ -5,35 +5,35 @@
 
 [1/7] POST /cursos - Cadastrando os 5 Cursos Oficiais...
 {
-  "id": 8,
+  "id": 1,
   "nome": "DEV",
   "descricao": "Desenvolvimento de Sistemas",
   "cargaHoraria": 400,
   "status": "ATIVO"
 }
 {
-  "id": 9,
+  "id": 2,
   "nome": "Instrumentação",
   "descricao": "Instrumentação Industrial",
   "cargaHoraria": 300,
   "status": "ATIVO"
 }
 {
-  "id": 10,
+  "id": 3,
   "nome": "Petroquímica",
   "descricao": "Processos Petroquímicos",
   "cargaHoraria": 360,
   "status": "ATIVO"
 }
 {
-  "id": 11,
+  "id": 4,
   "nome": "Química",
   "descricao": "Química Industrial",
   "cargaHoraria": 320,
   "status": "ATIVO"
 }
 {
-  "id": 12,
+  "id": 5,
   "nome": "Eletroeletrônica",
   "descricao": "Sistemas Eletroeletrônicos",
   "cargaHoraria": 400,
@@ -45,82 +45,33 @@
   {
     "id": 1,
     "nome": "DEV",
-    "descricao": "Desenvolvimento",
-    "cargaHoraria": 400,
-    "status": "ATIVO"
-  },
-  {
-    "id": 2,
-    "nome": "DEV",
-    "descricao": "Desenvolvimento",
-    "cargaHoraria": 400,
-    "status": "ATIVO"
-  },
-  {
-    "id": 3,
-    "nome": "DEV",
-    "descricao": "Desenvolvimento de Software",
-    "cargaHoraria": 400,
-    "status": "ATIVO"
-  },
-  {
-    "id": 4,
-    "nome": "Instrumentação",
-    "descricao": "Instrumentação Industrial",
-    "cargaHoraria": 300,
-    "status": "ATIVO"
-  },
-  {
-    "id": 5,
-    "nome": "Petroquímica",
-    "descricao": "Processos Petroquímicos",
-    "cargaHoraria": 360,
-    "status": "ATIVO"
-  },
-  {
-    "id": 6,
-    "nome": "Química",
-    "descricao": "Química Industrial",
-    "cargaHoraria": 320,
-    "status": "ATIVO"
-  },
-  {
-    "id": 7,
-    "nome": "Eletroeletrônica",
-    "descricao": "Sistemas Eletroeletrônicos",
-    "cargaHoraria": 400,
-    "status": "ATIVO"
-  },
-  {
-    "id": 8,
-    "nome": "DEV",
     "descricao": "Desenvolvimento de Sistemas",
     "cargaHoraria": 400,
     "status": "ATIVO"
   },
   {
-    "id": 9,
+    "id": 2,
     "nome": "Instrumentação",
     "descricao": "Instrumentação Industrial",
     "cargaHoraria": 300,
     "status": "ATIVO"
   },
   {
-    "id": 10,
+    "id": 3,
     "nome": "Petroquímica",
     "descricao": "Processos Petroquímicos",
     "cargaHoraria": 360,
     "status": "ATIVO"
   },
   {
-    "id": 11,
+    "id": 4,
     "nome": "Química",
     "descricao": "Química Industrial",
     "cargaHoraria": 320,
     "status": "ATIVO"
   },
   {
-    "id": 12,
+    "id": 5,
     "nome": "Eletroeletrônica",
     "descricao": "Sistemas Eletroeletrônicos",
     "cargaHoraria": 400,
@@ -128,19 +79,40 @@
   }
 ]
 
-[3/7] POST /matriculas - Cadastrando Matrículas das alunas...
+[3/7] POST /matriculas - Cadastrando Matrículas (Dupla + Alunos Fictícios)...
 {
-  "id": 8,
+  "id": 1,
   "cursoId": 1,
   "aluno": "Eduarda Kramer dos Santos",
   "email": "eduarda@email.com",
   "status": "ATIVA"
 }
 {
-  "id": 9,
+  "id": 2,
   "cursoId": 3,
   "aluno": "Emily Sibia de Paula",
   "email": "emily@email.com",
+  "status": "ATIVA"
+}
+{
+  "id": 3,
+  "cursoId": 2,
+  "aluno": "Lucas Silva",
+  "email": "lucas@email.com",
+  "status": "ATIVA"
+}
+{
+  "id": 4,
+  "cursoId": 4,
+  "aluno": "Mariana Oliveira",
+  "email": "mariana@email.com",
+  "status": "ATIVA"
+}
+{
+  "id": 5,
+  "cursoId": 5,
+  "aluno": "Gabriel Santos",
+  "email": "gabriel@email.com",
   "status": "ATIVA"
 }
 
@@ -148,48 +120,6 @@
 [
   {
     "id": 1,
-    "cursoId": 1,
-    "aluno": "Emily Sibia",
-    "email": "emily@email.com",
-    "status": "CANCELADA"
-  },
-  {
-    "id": 2,
-    "cursoId": 1,
-    "aluno": "Eduarda Kramer",
-    "email": "eduarda@email.com",
-    "status": "ATIVA"
-  },
-  {
-    "id": 3,
-    "cursoId": 1,
-    "aluno": "QUALQUER NOME",
-    "email": "qualquer@email.com",
-    "status": "ATIVA"
-  },
-  {
-    "id": 4,
-    "cursoId": 1,
-    "aluno": "Eduarda Kramer",
-    "email": "eduarda@email.com",
-    "status": "ATIVA"
-  },
-  {
-    "id": 5,
-    "cursoId": 1,
-    "aluno": "Emily Sibia",
-    "email": "emily@email.com",
-    "status": "ATIVA"
-  },
-  {
-    "id": 6,
-    "cursoId": 1,
-    "aluno": "Eduarda Kramer",
-    "email": "eduarda@email.com",
-    "status": "ATIVA"
-  },
-  {
-    "id": 8,
     "cursoId": 1,
     "aluno": "Eduarda Kramer dos Santos",
     "email": "eduarda@email.com",
@@ -201,8 +131,8 @@
 {
   "id": 1,
   "cursoId": 1,
-  "aluno": "Emily Sibia",
-  "email": "emily@email.com",
+  "aluno": "Eduarda Kramer dos Santos",
+  "email": "eduarda@email.com",
   "status": "CANCELADA"
 }
 

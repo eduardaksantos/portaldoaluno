@@ -3,6 +3,7 @@
 # ==============================================================================
 # PORTAL DO ALUNO - SCRIPT DE AUTOMAÇÃO DE TESTES RESTful API
 # Dupla: Eduarda Kramer dos Santos & Emily Sibia de Paula
+# Servidor: Node.js / Express rodando na porta 4000
 # Cursos: DEV, Instrumentação, Petroquímica, Química e Eletroeletrônica
 # ==============================================================================
 
@@ -13,9 +14,9 @@ echo "  INICIANDO TESTES AUTOMATIZADOS - PORTAL DO ALUNO"
 echo "  Servidor ativo na porta: 4000"
 echo "=================================================="
 
-# --------------------------------------------------------
+# ------------------------------------------------------------------------------
 # ETAPA 1: Cadastro dos 5 cursos oficiais via POST
-# --------------------------------------------------------
+# ------------------------------------------------------------------------------
 echo -e "\n[1/7] POST /cursos - Cadastrando os 5 Cursos Oficiais..."
 
 curl -s -X POST "$URL_BASE/cursos" \
@@ -38,24 +39,41 @@ curl -s -X POST "$URL_BASE/cursos" \
   -H "Content-Type: application/json" \
   -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
 
-# -------------------------------------------------------
-# # ETAPA 2: Consulta geral de cursos via GET
-# -------------------------------------------------------
+# ------------------------------------------------------------------------------
+# ETAPA 2: Consulta geral de cursos via GET
+# ------------------------------------------------------------------------------
 echo -e "\n[2/7] GET /cursos - Listando todos os cursos cadastrados..."
 curl -s "$URL_BASE/cursos" | jq
 
 # ------------------------------------------------------------------------------
-# ETAPA 3: Cadastro de Matrículas ativas com os nomes completos
+# ETAPA 3: Cadastro de Matrículas (1 Eduarda, 1 Emily + Nomes Fictícios)
 # ------------------------------------------------------------------------------
-echo -e "\n[3/7] POST /matriculas - Cadastrando Matrículas das alunas..."
+echo -e "\n[3/7] POST /matriculas - Cadastrando Matrículas (Dupla + Alunos Fictícios)..."
 
+# 1. Eduarda Kramer dos Santos (DEV)
 curl -s -X POST "$URL_BASE/matriculas" \
   -H "Content-Type: application/json" \
   -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
 
+# 2. Emily Sibia de Paula (Petroquímica)
 curl -s -X POST "$URL_BASE/matriculas" \
   -H "Content-Type: application/json" \
   -d '{"cursoId":3,"aluno":"Emily Sibia de Paula","email":"emily@email.com","status":"ATIVA"}' | jq
+
+# 3. Lucas Silva (Instrumentação)
+curl -s -X POST "$URL_BASE/matriculas" \
+  -H "Content-Type: application/json" \
+  -d '{"cursoId":2,"aluno":"Lucas Silva","email":"lucas@email.com","status":"ATIVA"}' | jq
+
+# 4. Mariana Oliveira (Química)
+curl -s -X POST "$URL_BASE/matriculas" \
+  -H "Content-Type: application/json" \
+  -d '{"cursoId":4,"aluno":"Mariana Oliveira","email":"mariana@email.com","status":"ATIVA"}' | jq
+
+# 5. Gabriel Santos (Eletroeletrônica)
+curl -s -X POST "$URL_BASE/matriculas" \
+  -H "Content-Type: application/json" \
+  -d '{"cursoId":5,"aluno":"Gabriel Santos","email":"gabriel@email.com","status":"ATIVA"}' | jq
 
 # ------------------------------------------------------------------------------
 # ETAPA 4: Filtragem com Query Parameters (?cursoId=1)
