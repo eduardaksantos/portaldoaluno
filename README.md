@@ -108,6 +108,34 @@ cat resultado_execucao.log
 Ao incluir o sleep 2, o servidor estará 100% ativo quando o script começar a enviar as requisições, gerando o relatório com os registros limpos (IDs de 1 a 5).
 
 
+---------------------------------------------------------------------------------------------------------
+Execute este teste rápido no terminal para validar todas as operações principais do CRUD de uma vez:
+```Bash
+# 1. CREATE (POST) - Criar Curso
+curl -s -X POST http://localhost:4000/cursos \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"DEV","descricao":"Desenvolvimento","cargaHoraria":400,"status":"ATIVO"}' | jq
+
+# 2. READ (GET) - Listar Cursos
+curl -s http://localhost:4000/cursos | jq
+
+# 3. UPDATE (PATCH) - Atualizar Curso
+curl -s -X PATCH http://localhost:4000/cursos/1 \
+  -H "Content-Type: application/json" \
+  -d '{"status":"ENCERRADO"}' | jq
+
+# 4. CREATE (POST) - Criar Matrícula
+curl -s -X POST http://localhost:4000/matriculas \
+  -H "Content-Type: application/json" \
+  -d '{"cursoId":1,"aluno":"Eduarda Kramer","email":"eduarda@email.com","status":"ATIVA"}' | jq
+
+# 5. READ (GET) - Listar Matrículas do Curso 1
+curl -s "http://localhost:4000/matriculas?cursoId=1" | jq
+
+# 6. DELETE - Remover Matrícula
+curl -s -X DELETE http://localhost:4000/matriculas/1 | jq
+-------------------------------------------------------------------------------------------------------------
+
 ### Testes de erro
 
 ```bash
