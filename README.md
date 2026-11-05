@@ -97,6 +97,17 @@ curl -s -X DELETE http://localhost:4000/matriculas/1 | jq
 # Remover curso
 curl -s -X DELETE http://localhost:4000/cursos/1 | jq
 
+### Para sair mais Limpo!!
+Bash
+cd ~/portaldoaluno
+pkill -f node
+npm start &
+sleep 2
+./testes_automacao.sh > resultado_execucao.log
+cat resultado_execucao.log
+Ao incluir o sleep 2, o servidor estará 100% ativo quando o script começar a enviar as requisições, gerando o relatório com os registros limpos (IDs de 1 a 5).
+
+
 ### Testes de erro
 
 ```bash
