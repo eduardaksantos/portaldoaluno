@@ -1,108 +1,83 @@
 #!/bin/bash
+# Testa todas as rotas da API (porta 4000) com curl e jq
 
-# ==============================================================================
-# PORTAL DO ALUNO - SCRIPT DE AUTOMAÇÃO DE TESTES RESTful API
-# Dupla: Eduarda Kramer dos Santos & Emily Sibia de Paula
-# Servidor: Node.js / Express rodando na porta 4000
-# Cursos: DEV, Instrumentação, Petroquímica, Química e Eletroeletrônica
-# ==============================================================================
+URL="http://localhost:4000"
+TIPO="Content-Type: application/json"
 
-URL_BASE="http://localhost:4000"
+echo "===== CURSOS ====="
 
-echo "=================================================="
-echo "  INICIANDO TESTES AUTOMATIZADOS - PORTAL DO ALUNO"
-echo "  Servidor ativo na porta: 4000"
-echo "=================================================="
+echo "1. POST /cursos (201)"
+curl -s -X POST $URL/cursos -H "$TIPO" -d '{"nome":"DEV","descricao":"Desenvolvimento de Sistemas","cargaHoraria":400,"status":"ATIVO"}' | jq
+curl -s -X POST $URL/cursos -H "$TIPO" -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+curl -s -X POST $URL/cursos -H "$TIPO" -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":320,"status":"ATIVO"}' | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 1: Cadastro dos 5 cursos oficiais via POST
-# ------------------------------------------------------------------------------
-echo -e "\n[1/7] POST /cursos - Cadastrando os 5 Cursos Oficiais..."
+echo "2. POST /cursos sem campos (400)"
+curl -s -w "HTTP %{http_code}\n" -X POST $URL/cursos -H "$TIPO" -d '{"nome":"Incompleto"}'
 
-curl -s -X POST "$URL_BASE/cursos" \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"DEV","descricao":"Desenvolvimento de Sistemas","cargaHoraria":400,"status":"ATIVO"}' | jq
+echo "3. GET /cursos (lista)"
+curl -s $URL/cursos | jq
 
-curl -s -X POST "$URL_BASE/cursos" \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+echo "4. GET /cursos?status=ATIVO (filtro)"
+curl -s "$URL/cursos?status=ATIVO" | jq
 
-curl -s -X POST "$URL_BASE/cursos" \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Petroquímica","descricao":"Processos Petroquímicos","cargaHoraria":360,"status":"ATIVO"}' | jq
+echo "5. GET /cursos/1 (por ID)"
+curl -s $URL/cursos/1 | jq
 
-curl -s -X POST "$URL_BASE/cursos" \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":320,"status":"ATIVO"}' | jq
+echo "6. GET /cursos/999 (404)"
+curl -s -w "HTTP %{http_code}\n" $URL/cursos/999
 
-curl -s -X POST "$URL_BASE/cursos" \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
+echo "7. PUT /cursos/1 (substitui tudo)"
+curl -s -X PUT $URL/cursos/1 -H "$TIPO" -d '{"nome":"DEV","descricao":"Desenvolvimento Full Stack","cargaHoraria":420,"status":"ATIVO"}' | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 2: Consulta geral de cursos via GET
-# ------------------------------------------------------------------------------
-echo -e "\n[2/7] GET /cursos - Listando todos os cursos cadastrados..."
-curl -s "$URL_BASE/cursos" | jq
+echo "8. PATCH /cursos/3 (altera só o status)"
+curl -s -X PATCH $URL/cursos/3 -H "$TIPO" -d '{"status":"ENCERRADO"}' | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 3: Cadastro de Matrículas (1 Eduarda, 1 Emily + Nomes Fictícios)
-# ------------------------------------------------------------------------------
-echo -e "\n[3/7] POST /matriculas - Cadastrando Matrículas (Dupla + Alunos Fictícios)..."
+echo
+echo "===== MATRÍCULAS ====="
 
-# 1. Eduarda Kramer dos Santos (DEV)
-curl -s -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+echo "9. POST /matriculas (201)"
+curl -s -X POST $URL/matriculas -H "$TIPO" -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+curl -s -X POST $URL/matriculas -H "$TIPO" -d '{"cursoId":1,"aluno":"Emily Sibia de Paula","email":"emily@email.com","status":"ATIVA"}' | jq
+curl -s -X POST $URL/matriculas -H "$TIPO" -d '{"cursoId":2,"aluno":"Lucas Silva","email":"lucas@email.com","status":"ATIVA"}' | jq
 
-# 2. Emily Sibia de Paula (Petroquímica)
-curl -s -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"cursoId":3,"aluno":"Emily Sibia de Paula","email":"emily@email.com","status":"ATIVA"}' | jq
+echo "10. POST /matriculas sem campos (400)"
+curl -s -w "HTTP %{http_code}\n" -X POST $URL/matriculas -H "$TIPO" -d '{"aluno":"Teste"}'
 
-# 3. Lucas Silva (Instrumentação)
-curl -s -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"cursoId":2,"aluno":"Lucas Silva","email":"lucas@email.com","status":"ATIVA"}' | jq
+echo "11. POST /matriculas com curso inexistente (404)"
+curl -s -w "HTTP %{http_code}\n" -X POST $URL/matriculas -H "$TIPO" -d '{"cursoId":999,"aluno":"Ana","email":"ana@email.com","status":"ATIVA"}'
 
-# 4. Mariana Oliveira (Química)
-curl -s -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"cursoId":4,"aluno":"Mariana Oliveira","email":"mariana@email.com","status":"ATIVA"}' | jq
+echo "12. GET /matriculas (lista)"
+curl -s $URL/matriculas | jq
 
-# 5. Gabriel Santos (Eletroeletrônica)
-curl -s -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"cursoId":5,"aluno":"Gabriel Santos","email":"gabriel@email.com","status":"ATIVA"}' | jq
+echo "13. GET /matriculas?cursoId=1 (filtro por curso)"
+curl -s "$URL/matriculas?cursoId=1" | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 4: Filtragem com Query Parameters (?cursoId=1)
-# ------------------------------------------------------------------------------
-echo -e "\n[4/7] GET /matriculas?cursoId=1 - Consultando matrículas do curso DEV..."
-curl -s "$URL_BASE/matriculas?cursoId=1" | jq
+echo "14. GET /matriculas?status=ATIVA (filtro por status)"
+curl -s "$URL/matriculas?status=ATIVA" | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 5: Atualização parcial via PATCH
-# ------------------------------------------------------------------------------
-echo -e "\n[5/7] PATCH /matriculas/1 - Atualizando status da matrícula de Eduarda..."
-curl -s -X PATCH "$URL_BASE/matriculas/1" \
-  -H "Content-Type: application/json" \
-  -d '{"status":"CANCELADA"}' | jq
+echo "15. GET /matriculas/1 (por ID)"
+curl -s $URL/matriculas/1 | jq
 
-# ------------------------------------------------------------------------------
-# ETAPA 6: Validação de Payload Inválido (Erro 400 Bad Request)
-# ------------------------------------------------------------------------------
-echo -e "\n[6/7] TESTE DE ERRO (HTTP 400 Bad Request) - Requisição incompleta..."
-curl -s -w "\nHTTP Status: %{http_code}\n" -X POST "$URL_BASE/matriculas" \
-  -H "Content-Type: application/json" \
-  -d '{"aluno":"Dados incompletos sem email e cursoId"}'
+echo "16. GET /matriculas/999 (404)"
+curl -s -w "HTTP %{http_code}\n" $URL/matriculas/999
 
-# ------------------------------------------------------------------------------
-# ETAPA 7: Teste de ID inexistente (Erro 404 Not Found)
-# ------------------------------------------------------------------------------
-echo -e "\n[7/7] TESTE DE ERRO (HTTP 404 Not Found) - Curso inexistente..."
-curl -s -w "\nHTTP Status: %{http_code}\n" "$URL_BASE/cursos/999"
+echo "17. PUT /matriculas/1 (substitui tudo)"
+curl -s -X PUT $URL/matriculas/1 -H "$TIPO" -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"CONCLUIDA"}' | jq
 
-echo -e "\n=================================================="
-echo "  TESTES NA PORTA 4000 FINALIZADOS COM SUCESSO"
-echo "=================================================="
+echo "18. PATCH /matriculas/2 (altera só o status)"
+curl -s -X PATCH $URL/matriculas/2 -H "$TIPO" -d '{"status":"CANCELADA"}' | jq
+
+echo
+echo "===== DELETE ====="
+
+echo "19. DELETE /matriculas/3"
+curl -s -X DELETE $URL/matriculas/3 | jq
+
+echo "20. DELETE /cursos/3"
+curl -s -X DELETE $URL/cursos/3 | jq
+
+echo "21. DELETE /cursos/999 (404)"
+curl -s -w "HTTP %{http_code}\n" -X DELETE $URL/cursos/999
+
+echo
+echo "===== FIM DOS TESTES ====="

@@ -1,9 +1,5 @@
-==================================================
-  INICIANDO TESTES AUTOMATIZADOS - PORTAL DO ALUNO
-  Servidor ativo na porta: 4000
-==================================================
-
-[1/7] POST /cursos - Cadastrando os 5 Cursos Oficiais...
+===== CURSOS =====
+1. POST /cursos (201)
 {
   "id": 1,
   "nome": "DEV",
@@ -20,27 +16,14 @@
 }
 {
   "id": 3,
-  "nome": "Petroquímica",
-  "descricao": "Processos Petroquímicos",
-  "cargaHoraria": 360,
-  "status": "ATIVO"
-}
-{
-  "id": 4,
   "nome": "Química",
   "descricao": "Química Industrial",
   "cargaHoraria": 320,
   "status": "ATIVO"
 }
-{
-  "id": 5,
-  "nome": "Eletroeletrônica",
-  "descricao": "Sistemas Eletroeletrônicos",
-  "cargaHoraria": 400,
-  "status": "ATIVO"
-}
-
-[2/7] GET /cursos - Listando todos os cursos cadastrados...
+2. POST /cursos sem campos (400)
+{"erro":"Campos obrigatórios: nome, descricao, cargaHoraria, status"}HTTP 400
+3. GET /cursos (lista)
 [
   {
     "id": 1,
@@ -58,28 +41,65 @@
   },
   {
     "id": 3,
-    "nome": "Petroquímica",
-    "descricao": "Processos Petroquímicos",
-    "cargaHoraria": 360,
-    "status": "ATIVO"
-  },
-  {
-    "id": 4,
     "nome": "Química",
     "descricao": "Química Industrial",
     "cargaHoraria": 320,
     "status": "ATIVO"
+  }
+]
+4. GET /cursos?status=ATIVO (filtro)
+[
+  {
+    "id": 1,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de Sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
   },
   {
-    "id": 5,
-    "nome": "Eletroeletrônica",
-    "descricao": "Sistemas Eletroeletrônicos",
-    "cargaHoraria": 400,
+    "id": 2,
+    "nome": "Instrumentação",
+    "descricao": "Instrumentação Industrial",
+    "cargaHoraria": 300,
+    "status": "ATIVO"
+  },
+  {
+    "id": 3,
+    "nome": "Química",
+    "descricao": "Química Industrial",
+    "cargaHoraria": 320,
     "status": "ATIVO"
   }
 ]
+5. GET /cursos/1 (por ID)
+{
+  "id": 1,
+  "nome": "DEV",
+  "descricao": "Desenvolvimento de Sistemas",
+  "cargaHoraria": 400,
+  "status": "ATIVO"
+}
+6. GET /cursos/999 (404)
+{"erro":"Curso não encontrado"}HTTP 404
+7. PUT /cursos/1 (substitui tudo)
+{
+  "id": 1,
+  "nome": "DEV",
+  "descricao": "Desenvolvimento Full Stack",
+  "cargaHoraria": 420,
+  "status": "ATIVO"
+}
+8. PATCH /cursos/3 (altera só o status)
+{
+  "id": 3,
+  "nome": "Química",
+  "descricao": "Química Industrial",
+  "cargaHoraria": 320,
+  "status": "ENCERRADO"
+}
 
-[3/7] POST /matriculas - Cadastrando Matrículas (Dupla + Alunos Fictícios)...
+===== MATRÍCULAS =====
+9. POST /matriculas (201)
 {
   "id": 1,
   "cursoId": 1,
@@ -89,7 +109,7 @@
 }
 {
   "id": 2,
-  "cursoId": 3,
+  "cursoId": 1,
   "aluno": "Emily Sibia de Paula",
   "email": "emily@email.com",
   "status": "ATIVA"
@@ -101,22 +121,11 @@
   "email": "lucas@email.com",
   "status": "ATIVA"
 }
-{
-  "id": 4,
-  "cursoId": 4,
-  "aluno": "Mariana Oliveira",
-  "email": "mariana@email.com",
-  "status": "ATIVA"
-}
-{
-  "id": 5,
-  "cursoId": 5,
-  "aluno": "Gabriel Santos",
-  "email": "gabriel@email.com",
-  "status": "ATIVA"
-}
-
-[4/7] GET /matriculas?cursoId=1 - Consultando matrículas do curso DEV...
+10. POST /matriculas sem campos (400)
+{"erro":"Campos obrigatórios: cursoId, aluno, email, status"}HTTP 400
+11. POST /matriculas com curso inexistente (404)
+{"erro":"Curso informado não existe"}HTTP 404
+12. GET /matriculas (lista)
 [
   {
     "id": 1,
@@ -124,26 +133,100 @@
     "aluno": "Eduarda Kramer dos Santos",
     "email": "eduarda@email.com",
     "status": "ATIVA"
+  },
+  {
+    "id": 2,
+    "cursoId": 1,
+    "aluno": "Emily Sibia de Paula",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 3,
+    "cursoId": 2,
+    "aluno": "Lucas Silva",
+    "email": "lucas@email.com",
+    "status": "ATIVA"
   }
 ]
-
-[5/7] PATCH /matriculas/1 - Atualizando status da matrícula de Eduarda...
+13. GET /matriculas?cursoId=1 (filtro por curso)
+[
+  {
+    "id": 1,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 2,
+    "cursoId": 1,
+    "aluno": "Emily Sibia de Paula",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  }
+]
+14. GET /matriculas?status=ATIVA (filtro por status)
+[
+  {
+    "id": 1,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 2,
+    "cursoId": 1,
+    "aluno": "Emily Sibia de Paula",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 3,
+    "cursoId": 2,
+    "aluno": "Lucas Silva",
+    "email": "lucas@email.com",
+    "status": "ATIVA"
+  }
+]
+15. GET /matriculas/1 (por ID)
 {
   "id": 1,
   "cursoId": 1,
   "aluno": "Eduarda Kramer dos Santos",
   "email": "eduarda@email.com",
+  "status": "ATIVA"
+}
+16. GET /matriculas/999 (404)
+{"erro":"Matrícula não encontrada"}HTTP 404
+17. PUT /matriculas/1 (substitui tudo)
+{
+  "id": 1,
+  "cursoId": 1,
+  "aluno": "Eduarda Kramer dos Santos",
+  "email": "eduarda@email.com",
+  "status": "CONCLUIDA"
+}
+18. PATCH /matriculas/2 (altera só o status)
+{
+  "id": 2,
+  "cursoId": 1,
+  "aluno": "Emily Sibia de Paula",
+  "email": "emily@email.com",
   "status": "CANCELADA"
 }
 
-[6/7] TESTE DE ERRO (HTTP 400 Bad Request) - Requisição incompleta...
-{"erro":"Campos obrigatórios: cursoId, aluno, email, status"}
-HTTP Status: 400
+===== DELETE =====
+19. DELETE /matriculas/3
+{
+  "mensagem": "Matrícula removida com sucesso"
+}
+20. DELETE /cursos/3
+{
+  "mensagem": "Curso removido com sucesso"
+}
+21. DELETE /cursos/999 (404)
+{"erro":"Curso não encontrado"}HTTP 404
 
-[7/7] TESTE DE ERRO (HTTP 404 Not Found) - Curso inexistente...
-{"erro":"Curso não encontrado"}
-HTTP Status: 404
-
-==================================================
-  TESTES NA PORTA 4000 FINALIZADOS COM SUCESSO
-==================================================
+===== FIM DOS TESTES =====
