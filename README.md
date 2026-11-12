@@ -42,7 +42,7 @@ cd portaldoaluno
 npm install
 
 # 3. Subir o servidor (deixe este terminal aberto)
-node server.js
+npm start
 ```
 
 O servidor sobe em `http://localhost:4000`.
@@ -112,7 +112,7 @@ O servidor sobe em `http://localhost:4000`.
 
 ```bash
 cd ~/portaldoaluno
-node server.js
+npm start
 ```
 
 **Terminal 2**, executar os testes e gerar o log:
@@ -127,7 +127,7 @@ Para começar com dados limpos (IDs a partir de 1), reinicie o servidor antes:
 
 ```bash
 pkill -f "node server.js"
-node server.js &
+npm start &
 sleep 2
 ./testes_automacao.sh | tee resultado_execucao.log
 ```
@@ -245,13 +245,13 @@ curl -s -w "\nHTTP Status: %{http_code}\n" -X POST http://localhost:4000/matricu
 
 ```bash
 # Iniciar o servidor em background (logs em servidor.log)
-nohup node server.js > servidor.log 2>&1 &
+nohup npm start > servidor.log 2>&1 &
 
 # Localizar o processo Node.js (anote o PID)
 ps aux | grep node
 
 # Encerrar o processo
-kill <PID>
+kill -9 <PID>   # troque <PID> pelo número da segunda coluna do ps aux
 
 # Ou encerrar pelo nome
 pkill -f "node server.js"
