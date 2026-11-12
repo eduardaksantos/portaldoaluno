@@ -261,3 +261,20 @@ ps aux | grep node
 ```
 
 Se aparecer `EADDRINUSE`, já existe um servidor na porta 4000: encerre-o com `kill` antes de subir outro.
+
+# Subir servidor Limpoe cadastrar os 5 cursos
+```bash
+cd ~/portaldoaluno
+npm start &
+sleep 2
+
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"DEV","descricao":"Desenvolvimento de Sistemas","cargaHoraria":400,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Petroquímica","descricao":"Processos Petroquímicos","cargaHoraria":360,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":360,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+
+# Listar novamente para confirmar
+```bash
+curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
+```
