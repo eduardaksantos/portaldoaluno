@@ -273,6 +273,8 @@ curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json"
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":360,"status":"ATIVO"}' | jq
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+# o ultimo é uma demonstração de curso ENCERRADO
 
 # Para remover cursos
 
@@ -302,8 +304,91 @@ curl -s "http://localhost:4000/cursos?status=ENCERRADO" | jq
 
 Descrição: Já cadastrar um 6º curso como ENCERRADO desde o início
 Se quiser manter os 5 cursos intactos como ATIVO, basta adicionar um curso extra de exemplo (ex: Mecânica) já nascendo ENCERRADO:
+```
+
+# Remove Matrícula
+```bash
+curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
+```
 
 curl -s -X POST http://localhost:4000/cursos \
   -H "Content-Type: application/json" \
   -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+```
+
+# PASSO A PASSO DEMONSTRAÇÃO0:
+```bash
+
+Reiniciar e Ligar o Servidor Limpo
+
+pkill -f "node"
+cd ~/portaldoaluno
+npm start &
+sleep 2
+
+Passo 1: Criar os Cursos (POST — Status 201)
+
+# Os 5 cursos principais (ATIVOS - IDs 1 a 5)
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"DEV","descricao":"Desenvolvimento de Sistemas","cargaHoraria":400,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Petroquímica","descricao":"Processos Petroquímicos","cargaHoraria":360,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":360,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+
+# 1 curso inativo para demonstrar o filtro depois (ENCERRADO - ID 6)
+curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+Passo 2: Criar as Matrículas (POST — Status 201)
+Bash
+# Matrícula 1: Eduarda em DEV (cursoId: 1)
+curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+
+# Matrícula 2: Emily em Petroquímica (cursoId: 2)
+curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"cursoId":2,"aluno":"Emily Sibia de Paula","email":"emily@email.com","status":"ATIVA"}' | jq
+
+# Matrícula 3: Eduarda em Química (cursoId: 3)
+curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"cursoId":3,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+Passo 3: Atualizar Parcial (PATCH) e Completo (PUT) — Status 200
+Bash
+# PATCH: altera só o status da matrícula 1
+curl -s -X PATCH http://localhost:4000/matriculas/1 -H "Content-Type: application/json" -d '{"status":"CONCLUIDA"}' | jq
+
+# PUT: substitui o curso 1 completo
+curl -s -X PUT http://localhost:4000/cursos/1 -H "Content-Type: application/json" -d '{"nome":"DEV","descricao":"Desenvolvimento Full Stack","cargaHoraria":420,"status":"ATIVO"}' | jq
+Passo 4: Consultar e Filtrar (GET + Query Params — Status 200)
+Bash
+# Filtra cursos ATIVOS (mostra os 5 cursos principais)
+curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
+
+# Filtra cursos ENCERRADOS (mostra SOMENTE Mecânica)
+curl -s "http://localhost:4000/cursos?status=ENCERRADO" | jq
+
+# Filtra matrículas por cursoId (mostra só o curso 1)
+curl -s "http://localhost:4000/matriculas?cursoId=1" | jq
+
+# Busca individual por ID (:id)
+curl -s http://localhost:4000/cursos/2 | jq
+Passo 5: Remover (DELETE — Status 200)
+Bash
+# Remove a matrícula 3
+curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
+Passo 6: Testar Erros (400 e 404)
+Bash
+# 400 Bad Request - corpo incompleto
+curl -s -w "\nHTTP Status: %{http_code}\n" -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"aluno":"Teste"}'
+
+# 404 Not Found - curso inexistente
+curl -s -w "\nHTTP Status: %{http_code}\n" http://localhost:4000/cursos/999
+
+# 404 Not Found - matrícula em curso inexistente
+curl -s -w "\nHTTP Status: %{http_code}\n" -X POST http://localhost:4000/matriculas -H "Content-Type: application/
+
+#Para ver o número (PID) e matar manualmente (como o professor costuma pedir):
+Liste o processo rodando:
+
+```bash
+ps aux | grep node
+Pegue o número na segunda coluna (o PID) da linha node server.js e mate com:
+
+Bash
+kill -9 <NUMERO_DO_PID>
 ```
