@@ -309,7 +309,7 @@ Se quiser manter os 5 cursos intactos como ATIVO, basta adicionar um curso extra
 # Remove Matrícula
 ```bash
 curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
-```
+
 
 curl -s -X POST http://localhost:4000/cursos \
   -H "Content-Type: application/json" \
