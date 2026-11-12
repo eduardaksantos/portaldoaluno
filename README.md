@@ -262,7 +262,7 @@ ps aux | grep node
 
 Se aparecer `EADDRINUSE`, já existe um servidor na porta 4000: encerre-o com `kill` antes de subir outro.
 
-# Subir servidor Limpoe cadastrar os 5 cursos
+# Subir servidor Limpo e cadastrar os 5 cursos
 ```bash
 cd ~/portaldoaluno
 npm start &
@@ -273,6 +273,13 @@ curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json"
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":360,"status":"ATIVO"}' | jq
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+
+# Para remover cursos
+
+```bash
+curl -s -X DELETE http://localhost:4000/cursos/n° do curso q deseja remover | jq
+curl -s -X DELETE http://localhost:4000/cursos/6 | jq
+curl -s -X DELETE http://localhost:4000/cursos/7 | jq
 
 # Listar novamente para confirmar
 ```bash
