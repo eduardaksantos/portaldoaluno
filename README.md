@@ -285,3 +285,25 @@ curl -s -X DELETE http://localhost:4000/cursos/7 | jq
 ```bash
 curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
 ```
+# Exemplo de curso INATIVO para demonstração
+```bash
+Descrição: Depois de cadastrar os 5 cursos como ATIVO, você mostra o PATCH /cursos/5 mudando o curso de Instrumentação para ENCERRADO:
+
+# 1. Altera apenas o status do curso 5 para ENCERRADO (PATCH - 200)
+curl -s -X PATCH http://localhost:4000/cursos/5 \
+  -H "Content-Type: application/json" \
+  -d '{"status":"ENCERRADO"}' | jq
+
+# 2. Filtra só os ATIVOS (vai mostrar apenas os cursos 1, 2, 3 e 4!)
+curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
+
+# 3. Filtra só os ENCERRADOS (vai mostrar apenas o curso 5!)
+curl -s "http://localhost:4000/cursos?status=ENCERRADO" | jq
+
+Descrição: Já cadastrar um 6º curso como ENCERRADO desde o início
+Se quiser manter os 5 cursos intactos como ATIVO, basta adicionar um curso extra de exemplo (ex: Mecânica) já nascendo ENCERRADO:
+
+curl -s -X POST http://localhost:4000/cursos \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+```
