@@ -316,7 +316,7 @@ curl -s -X POST http://localhost:4000/cursos \
   -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
 ```
 
-# PASSO A PASSO DEMONSTRAÇÃO0:
+# PASSO A PASSO DEMONSTRAÇÃO:
 ```bash
 
 Reiniciar e Ligar o Servidor Limpo
@@ -325,6 +325,10 @@ pkill -f "node"
 cd ~/portaldoaluno
 npm start &
 sleep 2
+
+npm install
+node server.js
+-rodando portal do aluno na porta 4000
 --------------------------------------------------------------------------------------------------------------------------------------
 Passo 1: Criar os Cursos (POST — Status 201)
 
@@ -356,6 +360,7 @@ curl -s -X PATCH http://localhost:4000/matriculas/1 -H "Content-Type: applicatio
 
 # PUT: substitui o curso 1 completo
 curl -s -X PUT http://localhost:4000/cursos/1 -H "Content-Type: application/json" -d '{"nome":"DEV","descricao":"Desenvolvimento Full Stack","cargaHoraria":420,"status":"ATIVO"}' | jq
+----------------------------------------------------------------------------------------------------------------------------------------
 Passo 4: Consultar e Filtrar (GET + Query Params — Status 200)
 
 # Filtra cursos ATIVOS (mostra os 5 cursos principais)
@@ -376,7 +381,7 @@ Passo 5: Remover (DELETE — Status 200)
 # Remove a matrícula 3
 curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
 Passo 6: Testar Erros (400 e 404)
-Bash
+
 # 400 Bad Request - corpo incompleto
 curl -s -w "\nHTTP Status: %{http_code}\n" -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"aluno":"Teste"}'
 
