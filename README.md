@@ -325,7 +325,7 @@ pkill -f "node"
 cd ~/portaldoaluno
 npm start &
 sleep 2
-
+--------------------------------------------------------------------------------------------------------------------------------------
 Passo 1: Criar os Cursos (POST — Status 201)
 
 # Os 5 cursos principais (ATIVOS - IDs 1 a 5)
@@ -337,8 +337,9 @@ curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json"
 
 # 1 curso inativo para demonstrar o filtro depois (ENCERRADO - ID 6)
 curl -s -X POST http://localhost:4000/cursos -H "Content-Type: application/json" -d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+--------------------------------------------------------------------------------------------------------------------------------------
 Passo 2: Criar as Matrículas (POST — Status 201)
-Bash
+
 # Matrícula 1: Eduarda em DEV (cursoId: 1)
 curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
 
@@ -347,15 +348,16 @@ curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/j
 
 # Matrícula 3: Eduarda em Química (cursoId: 3)
 curl -s -X POST http://localhost:4000/matriculas -H "Content-Type: application/json" -d '{"cursoId":3,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+--------------------------------------------------------------------------------------------------------------------------------------
 Passo 3: Atualizar Parcial (PATCH) e Completo (PUT) — Status 200
-Bash
+
 # PATCH: altera só o status da matrícula 1
 curl -s -X PATCH http://localhost:4000/matriculas/1 -H "Content-Type: application/json" -d '{"status":"CONCLUIDA"}' | jq
 
 # PUT: substitui o curso 1 completo
 curl -s -X PUT http://localhost:4000/cursos/1 -H "Content-Type: application/json" -d '{"nome":"DEV","descricao":"Desenvolvimento Full Stack","cargaHoraria":420,"status":"ATIVO"}' | jq
 Passo 4: Consultar e Filtrar (GET + Query Params — Status 200)
-Bash
+
 # Filtra cursos ATIVOS (mostra os 5 cursos principais)
 curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
 
@@ -367,8 +369,10 @@ curl -s "http://localhost:4000/matriculas?cursoId=1" | jq
 
 # Busca individual por ID (:id)
 curl -s http://localhost:4000/cursos/2 | jq
+-------------------------------------------------------------------------------------------------------------------------------------------
+
 Passo 5: Remover (DELETE — Status 200)
-Bash
+
 # Remove a matrícula 3
 curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
 Passo 6: Testar Erros (400 e 404)
@@ -382,6 +386,7 @@ curl -s -w "\nHTTP Status: %{http_code}\n" http://localhost:4000/cursos/999
 # 404 Not Found - matrícula em curso inexistente
 curl -s -w "\nHTTP Status: %{http_code}\n" -X POST http://localhost:4000/matriculas -H "Content-Type: application/
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 #Para ver o número (PID) e matar manualmente (como o professor costuma pedir):
 Liste o processo rodando:
 
@@ -391,4 +396,17 @@ Pegue o número na segunda coluna (o PID) da linha node server.js e mate com:
 
 Bash
 kill -9 <NUMERO_DO_PID>
+------------------------------------------------------------------------------------------------------------------------------------------------
+# Para apagar algo cadastrado
+```bash
+curl -s -X DELETE http://localhost:4000/cursos/n° do ID | jq
+
+ex:
+curl -s -X DELETE http://localhost:4000/cursos/11 | jq
+
+com matriculas:
+curl -s -X DELETE http://localhost:4000/matriculas/1 | jq
+
+conferir se foi apagada:
+curl -s http://localhost:4000/matriculas | jq
 ```
