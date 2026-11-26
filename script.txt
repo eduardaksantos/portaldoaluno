@@ -1,0 +1,207 @@
+Roteiro de apresentação — Portal do Aluno
+
+1. Introdução — Eduarda 
+
+Nosso projeto se chama Portal do Aluno e foi desenvolvido por mim, Eduarda Kramer, e pela Emily Sibia.
+
+Escolhemos o tema Plataforma de Cursos e Matrículas. Nosso objetivo é desenvolver uma API RESTful que permita cadastrar, consultar, atualizar e excluir cursos e matrículas.
+
+Para demonstrar o funcionamento, selecionamos cinco cursos principais: Desenvolvimento de Sistemas, Petroquímica, Química, Eletroeletrônica e Instrumentação. Também adicionamos um curso encerrado para demonstrar os filtros da API.
+
+2. Inicialização do servidor — Emily
+
+Antes de começar os testes, precisamos iniciar nosso servidor.
+
+Utilizamos o comando npm start, que executa o arquivo principal server.js por meio da configuração do package.json.
+
+Nossa aplicação utiliza Node.js e Express e está configurada para receber requisições na porta 4000.
+
+Os dados são armazenados temporariamente em memória. Por isso, ao reiniciar o servidor, os registros são apagados e precisamos cadastrá-los novamente.
+
+Código: cd ~/portaldoaluno
+npm start
+
+3. Cadastro dos cursos — Eduarda
+
+Vamos começar pela entidade Cursos.
+
+Primeiro, utilizamos o método POST, responsável por cadastrar novos registros.
+
+Aqui estamos cadastrando os cinco cursos principais e mais um curso encerrado, que será utilizado posteriormente para demonstrar a filtragem.
+
+Quando o cadastro acontece corretamente, a API retorna o código 201, chamado Created, indicando que o recurso foi criado com sucesso.
+
+Cada curso possui um ID, nome, descrição, carga horária e status.
+
+Código: 
+
+# Curso 1
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"DEV","descricao":"Desenvolvimento de Sistemas","cargaHoraria":400,"status":"ATIVO"}' | jq
+
+# Curso 2
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"Petroquímica","descricao":"Processos Petroquímicos","cargaHoraria":360,"status":"ATIVO"}' | jq
+
+# Curso 3
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"Química","descricao":"Química Industrial","cargaHoraria":360,"status":"ATIVO"}' | jq
+
+# Curso 4
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"Eletroeletrônica","descricao":"Sistemas Eletroeletrônicos","cargaHoraria":400,"status":"ATIVO"}' | jq
+
+# Curso 5
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"Instrumentação","descricao":"Instrumentação Industrial","cargaHoraria":300,"status":"ATIVO"}' | jq
+
+# Curso 6 — encerrado
+curl -s -X POST http://localhost:4000/cursos \
+-H "Content-Type: application/json" \
+-d '{"nome":"Mecânica","descricao":"Mecânica Industrial","cargaHoraria":300,"status":"ENCERRADO"}' | jq
+
+4. Cadastro das matrículas- Emily
+
+Agora vamos demonstrar a entidade Matrículas.
+
+Cada matrícula possui informações do aluno, como nome e e-mail, além do identificador do curso ao qual está vinculada.
+
+Esse relacionamento é feito pelo campo cursoId. Por exemplo, a matrícula da Eduarda está vinculada ao curso de ID 1, enquanto a matrícula da Emily está vinculada ao curso de ID 2.
+
+Também cadastramos uma segunda matrícula da Eduarda, agora no curso de Química.
+
+Assim, conseguimos demonstrar que um mesmo aluno pode estar matriculado em cursos diferentes.
+
+Código: 
+
+
+# Matrícula 1 — Eduarda em DEV
+curl -s -X POST http://localhost:4000/matriculas \
+-H "Content-Type: application/json" \
+-d '{"cursoId":1,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+
+# Matrícula 2 — Emily em Petroquímica
+curl -s -X POST http://localhost:4000/matriculas \
+-H "Content-Type: application/json" \
+-d '{"cursoId":2,"aluno":"Emily Sibia de Paula","email":"emily@email.com","status":"ATIVA"}' | jq
+
+# Matrícula 3 — Eduarda em Química
+curl -s -X POST http://localhost:4000/matriculas \
+-H "Content-Type: application/json" \
+-d '{"cursoId":3,"aluno":"Eduarda Kramer dos Santos","email":"eduarda@email.com","status":"ATIVA"}' | jq
+
+
+5. Atualizações com PUT e PATCH- Eduarda
+
+Depois dos cadastros, vamos demonstrar as operações de atualização.
+
+Primeiro, utilizamos o PATCH para alterar somente o status da matrícula de ID 1, passando de ATIVA para CONCLUIDA.
+
+O PATCH é utilizado quando precisamos modificar apenas uma parte do registro.
+
+Em seguida, utilizamos o PUT para atualizar o curso de ID 1, substituindo suas informações pelas novas informações enviadas.
+
+A principal diferença é que o PUT atualiza o registro completo, enquanto o PATCH altera apenas os campos informados.
+
+Código: 
+# PATCH — alteração parcial da matrícula
+curl -s -X PATCH http://localhost:4000/matriculas/1 \
+-H "Content-Type: application/json" \
+-d '{"status":"CONCLUIDA"}' | jq
+
+# PUT — atualização completa do curso
+curl -s -X PUT http://localhost:4000/cursos/1 \
+-H "Content-Type: application/json" \
+-d '{"nome":"DEV","descricao":"Desenvolvimento Full Stack","cargaHoraria":420,"status":"ATIVO"}' | jq
+
+6. Consultas e filtros — Emily
+
+Agora vamos utilizar o método GET, responsável por consultar os registros.
+
+Além da consulta geral, nossa API permite utilizar Query Parameters, que são parâmetros adicionados ao endereço da requisição para filtrar os resultados.
+
+Por exemplo, quando utilizamos ?status=ATIVO, recebemos somente os cursos ativos.
+
+Também podemos utilizar ?status=ENCERRADO, que deve retornar apenas o curso de Mecânica.
+
+Nas matrículas, utilizamos ?cursoId=1 para consultar somente as matrículas vinculadas ao curso de ID 1.
+
+Por último, também podemos consultar um registro individualmente por meio do seu ID, como estamos fazendo aqui com o curso de número 2.
+
+Código: # Listar cursos ativos
+curl -s "http://localhost:4000/cursos?status=ATIVO" | jq
+
+# Listar cursos encerrados
+curl -s "http://localhost:4000/cursos?status=ENCERRADO" | jq
+
+# Filtrar matrículas pelo curso
+curl -s "http://localhost:4000/matriculas?cursoId=1" | jq
+
+# Consultar um curso pelo ID
+curl -s http://localhost:4000/cursos/2 | jq
+
+7. Exclusão — Eduarda
+
+Para demonstrar a última operação do CRUD, utilizamos o método DELETE.
+
+Ele permite excluir um registro por meio do seu ID.
+
+Neste exemplo, estamos removendo a matrícula de número 3.
+
+Quando a exclusão acontece corretamente, nossa API retorna o código 200, chamado OK.
+
+Código:
+curl -s -X DELETE http://localhost:4000/matriculas/3 | jq
+
+8. Testes de erros — Emily 
+
+Além das operações principais, também testamos o tratamento de erros da API.
+
+O primeiro exemplo é o código 400, Bad Request, que acontece quando enviamos uma requisição com informações obrigatórias faltando.
+
+Já o código 404, Not Found, indica que o recurso solicitado não foi encontrado.
+
+Aqui estamos tentando consultar um curso com ID 999, que não existe.
+
+Também vamos testar o envio de uma matrícula vinculada a um curso inexistente, para verificar se nossa API impede esse cadastro.
+
+Código: # Erro 400 — matrícula com informações incompletas
+curl -s -w "\nHTTP Status: %{http_code}\n" \
+-X POST http://localhost:4000/matriculas \
+-H "Content-Type: application/json" \
+-d '{"aluno":"Teste"}'
+
+# Erro 404 — curso inexistente
+curl -s -w "\nHTTP Status: %{http_code}\n" \
+http://localhost:4000/cursos/999
+
+# Erro 404 — matrícula vinculada a curso inexistente
+curl -s -w "\nHTTP Status: %{http_code}\n" \
+-X POST http://localhost:4000/matriculas \
+-H "Content-Type: application/json" \
+-d '{"cursoId":999,"aluno":"Aluno Teste","email":"teste@email.com","status":"ATIVA"}'
+
+
+9.Gerenciamento do processo Linux — Eduarda
+
+Por último, também podemos acompanhar o funcionamento do servidor pelo próprio Linux.
+
+Utilizamos o comando ps aux para listar os processos em execução e localizar o processo do Node.js.
+
+Com o PID, que é o número identificador do processo, podemos utilizar o comando kill para encerrar especificamente o servidor.
+
+Com isso, demonstramos não apenas as funcionalidades da API, mas também o gerenciamento do processo no ambiente Linux.
+
+Essa foi nossa demonstração do Portal do Aluno. Obrigada!
+
+Código: # Listar processos
+ps aux | grep node
+
+
+kill NUMERO_DO_PID
+
