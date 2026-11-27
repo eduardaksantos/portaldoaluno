@@ -294,6 +294,38 @@ app.delete('/matriculas/:id', (req, res) => {
 const PORT = 4000;
 
 // [FLUXO] Inicia a escuta HTTP da API na porta 4000
+
+// [FLUXO] Endpoint analítico consolidado para o dashboard
+app.get("/api/v1/dashboard", (req, res) => {
+  const cursosUnicos = [];
+  for (const c of cursos) {
+    if (!cursosUnicos.some((item) => item.nome === c.nome)) {
+      cursosUnicos.push(c);
+    }
+  }
+  const totalCursos = cursosUnicos.length;
+  const cursosAtivos = cursosUnicos.filter((c) => c.status === "ATIVO").length;
+  const cursosEncerrados = cursosUnicos.filter((c) => c.status === "ENCERRADO").length;
+  const cargaHorariaTotal = cursosUnicos.reduce((acc, c) => acc + Number(c.cargaHoraria || 0), 0);
+  const cargaHorariaMedia = totalCursos > 0 ? Number((cargaHorariaTotal / totalCursos).toFixed(2)) : 0;
+
+  res.status(200).json({
+    resumo: {
+      totalCursos,
+      cursosAtivos,
+      cursosEncerrados,
+      cargaHorariaTotal,
+      cargaHorariaMedia,
+    },
+    cursos: cursosUnicos.map((c, index) => ({
+      id: index + 1,
+      nome: c.nome,
+      cargaHoraria: c.cargaHoraria,
+      status: c.status,
+    })),
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Portal do Aluno rodando em http://localhost:${PORT}`);
 });

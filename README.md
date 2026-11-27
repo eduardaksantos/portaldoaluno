@@ -415,3 +415,32 @@ curl -s -X DELETE http://localhost:4000/matriculas/1 | jq
 conferir se foi apagada:
 curl -s http://localhost:4000/matriculas | jq
 ```
+----------------------------------------------------------------------------------------------------------------
+AULA BONUS
+
+#Subir a API REST na porta 4000
+```bash
+node server.js > servidor.log 2>&1 &
+
+Popular o banco em memória sem duplicação
+./dados_exemplo.sh
+
+Executar o pipeline ETL (Extração, Transformação e Carga em CSV)
+./exportar_dataset.sh
+
+Demonstrar as 3 visualizações analíticas (Desafio Bônus)
+Opção A — Gráfico em Bash Puro (sem dependências externas):
+
+./grafico_barras.sh
+
+Opção B — Gráfico em Python (termgraph):
+./grafico_termgraph.sh
+
+Opção C
+sed 's/4000/4088/g' server.js | node > /dev/null 2>&1 &
+sleep 1
+sed 's/4000/4088/g' dados_exemplo.sh | bash
+curl -s http://localhost:4088/api/v1/dashboard | jq .
+pkill -u $USER -f "node"
+
+```
