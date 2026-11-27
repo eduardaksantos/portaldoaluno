@@ -1,3 +1,6 @@
 "ID","NOME","DESCRICAO","CARGA_HORARIA","STATUS"
-1,"DEV","Desenvolvimento de Sistemas",400,"ATIVO"
-2,"Petroquímica","Processos Petroquímicos",360,"ATIVO"
+1,"DEV","Desenvolvimento de sistemas",400,"ATIVO"
+2,"Instrumentação","Controle de processos industriais",360,"ATIVO"
+3,"Química","Análises químicas",320,"ATIVO"
+4,"Petroquímica","Indústria petroquímica",380,"ATIVO"
+5,"Eletroeletrônica","Eletricidade e automação",340,"ENCERRADO"

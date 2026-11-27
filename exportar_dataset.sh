@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # [FLUXO] Definindo endpoint de origem e arquivo CSV de destino
-API_URL="http://localhost:4000/cursos"
+API_URL="http://localhost:4015/cursos"
 CSV_OUT="dataset_analitico.csv"
 
 echo "[FLUXO] Extraindo dados brutos da API..."

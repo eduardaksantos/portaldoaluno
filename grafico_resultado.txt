@@ -1,0 +1,7 @@
+[FLUXO] Extraindo dados da API...
+
+Carga horária por curso (cada # = 20h)
+--------------------------------------
+DEV                | #################### 400h
+Petroquímica      | ################## 360h
+Instrumentação   | ################### 380h

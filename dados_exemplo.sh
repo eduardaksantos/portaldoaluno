@@ -5,8 +5,8 @@
 # Uso: ./dados_exemplo.sh   (a API precisa estar rodando)
 # ============================================================
 
-# Endereço da rota de cursos (a API roda na porta 4000)
-URL="http://localhost:4000/cursos"
+# Endereço da rota de cursos (a API roda na porta 4015)
+URL="http://localhost:4015/cursos"
 
 # Cabeçalho que avisa a API que estamos enviando JSON
 TIPO="Content-Type: application/json"

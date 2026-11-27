@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # [FLUXO] Definindo endpoint de origem
-API_URL="http://localhost:4000/cursos"
+API_URL="http://localhost:4015/cursos"
 
 echo "[FLUXO] Extraindo dados da API..."
 DADOS_JSON=$(curl -s "$API_URL")

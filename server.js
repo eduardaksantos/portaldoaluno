@@ -291,9 +291,9 @@ app.delete('/matriculas/:id', (req, res) => {
 // ================================================================
 // LIGA O SERVIDOR
 // ================================================================
-const PORT = 4000;
+const PORT = 4015;
 
-// [FLUXO] Inicia a escuta HTTP da API na porta 4000
+// [FLUXO] Inicia a escuta HTTP da API na porta 4015
 app.listen(PORT, () => {
   console.log(`Portal do Aluno rodando em http://localhost:${PORT}`);
 });
