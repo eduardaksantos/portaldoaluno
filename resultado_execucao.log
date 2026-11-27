@@ -1,21 +1,21 @@
 ===== CURSOS =====
 1. POST /cursos (201)
 {
-  "id": 1,
+  "id": 11,
   "nome": "DEV",
   "descricao": "Desenvolvimento de Sistemas",
   "cargaHoraria": 400,
   "status": "ATIVO"
 }
 {
-  "id": 2,
+  "id": 12,
   "nome": "Instrumentação",
   "descricao": "Instrumentação Industrial",
   "cargaHoraria": 300,
   "status": "ATIVO"
 }
 {
-  "id": 3,
+  "id": 13,
   "nome": "Química",
   "descricao": "Química Industrial",
   "cargaHoraria": 320,
@@ -28,19 +28,89 @@
   {
     "id": 1,
     "nome": "DEV",
-    "descricao": "Desenvolvimento de Sistemas",
+    "descricao": "Desenvolvimento de sistemas",
     "cargaHoraria": 400,
     "status": "ATIVO"
   },
   {
     "id": 2,
     "nome": "Instrumentação",
+    "descricao": "Controle de processos industriais",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 3,
+    "nome": "Química",
+    "descricao": "Análises químicas",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 4,
+    "nome": "Petroquímica",
+    "descricao": "Indústria petroquímica",
+    "cargaHoraria": 380,
+    "status": "ATIVO"
+  },
+  {
+    "id": 5,
+    "nome": "Eletroeletrônica",
+    "descricao": "Eletricidade e automação",
+    "cargaHoraria": 340,
+    "status": "ENCERRADO"
+  },
+  {
+    "id": 6,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 7,
+    "nome": "Instrumentação",
+    "descricao": "Controle de processos industriais",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 8,
+    "nome": "Química",
+    "descricao": "Análises químicas",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 9,
+    "nome": "Petroquímica",
+    "descricao": "Indústria petroquímica",
+    "cargaHoraria": 380,
+    "status": "ATIVO"
+  },
+  {
+    "id": 10,
+    "nome": "Eletroeletrônica",
+    "descricao": "Eletricidade e automação",
+    "cargaHoraria": 340,
+    "status": "ENCERRADO"
+  },
+  {
+    "id": 11,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de Sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 12,
+    "nome": "Instrumentação",
     "descricao": "Instrumentação Industrial",
     "cargaHoraria": 300,
     "status": "ATIVO"
   },
   {
-    "id": 3,
+    "id": 13,
     "nome": "Química",
     "descricao": "Química Industrial",
     "cargaHoraria": 320,
@@ -52,19 +122,75 @@
   {
     "id": 1,
     "nome": "DEV",
-    "descricao": "Desenvolvimento de Sistemas",
+    "descricao": "Desenvolvimento de sistemas",
     "cargaHoraria": 400,
     "status": "ATIVO"
   },
   {
     "id": 2,
     "nome": "Instrumentação",
+    "descricao": "Controle de processos industriais",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 3,
+    "nome": "Química",
+    "descricao": "Análises químicas",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 4,
+    "nome": "Petroquímica",
+    "descricao": "Indústria petroquímica",
+    "cargaHoraria": 380,
+    "status": "ATIVO"
+  },
+  {
+    "id": 6,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 7,
+    "nome": "Instrumentação",
+    "descricao": "Controle de processos industriais",
+    "cargaHoraria": 360,
+    "status": "ATIVO"
+  },
+  {
+    "id": 8,
+    "nome": "Química",
+    "descricao": "Análises químicas",
+    "cargaHoraria": 320,
+    "status": "ATIVO"
+  },
+  {
+    "id": 9,
+    "nome": "Petroquímica",
+    "descricao": "Indústria petroquímica",
+    "cargaHoraria": 380,
+    "status": "ATIVO"
+  },
+  {
+    "id": 11,
+    "nome": "DEV",
+    "descricao": "Desenvolvimento de Sistemas",
+    "cargaHoraria": 400,
+    "status": "ATIVO"
+  },
+  {
+    "id": 12,
+    "nome": "Instrumentação",
     "descricao": "Instrumentação Industrial",
     "cargaHoraria": 300,
     "status": "ATIVO"
   },
   {
-    "id": 3,
+    "id": 13,
     "nome": "Química",
     "descricao": "Química Industrial",
     "cargaHoraria": 320,
@@ -75,7 +201,7 @@
 {
   "id": 1,
   "nome": "DEV",
-  "descricao": "Desenvolvimento de Sistemas",
+  "descricao": "Desenvolvimento de sistemas",
   "cargaHoraria": 400,
   "status": "ATIVO"
 }
@@ -93,7 +219,7 @@
 {
   "id": 3,
   "nome": "Química",
-  "descricao": "Química Industrial",
+  "descricao": "Análises químicas",
   "cargaHoraria": 320,
   "status": "ENCERRADO"
 }
@@ -101,21 +227,21 @@
 ===== MATRÍCULAS =====
 9. POST /matriculas (201)
 {
-  "id": 1,
+  "id": 4,
   "cursoId": 1,
   "aluno": "Eduarda Kramer dos Santos",
   "email": "eduarda@email.com",
   "status": "ATIVA"
 }
 {
-  "id": 2,
+  "id": 5,
   "cursoId": 1,
   "aluno": "Emily Sibia de Paula",
   "email": "emily@email.com",
   "status": "ATIVA"
 }
 {
-  "id": 3,
+  "id": 6,
   "cursoId": 2,
   "aluno": "Lucas Silva",
   "email": "lucas@email.com",
@@ -136,13 +262,34 @@
   },
   {
     "id": 2,
-    "cursoId": 1,
+    "cursoId": 2,
     "aluno": "Emily Sibia de Paula",
     "email": "emily@email.com",
     "status": "ATIVA"
   },
   {
     "id": 3,
+    "cursoId": 1,
+    "aluno": "Lucas Silva",
+    "email": "lucas@email.com",
+    "status": "CONCLUIDA"
+  },
+  {
+    "id": 4,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 5,
+    "cursoId": 1,
+    "aluno": "Emily Sibia de Paula",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 6,
     "cursoId": 2,
     "aluno": "Lucas Silva",
     "email": "lucas@email.com",
@@ -159,7 +306,21 @@
     "status": "ATIVA"
   },
   {
-    "id": 2,
+    "id": 3,
+    "cursoId": 1,
+    "aluno": "Lucas Silva",
+    "email": "lucas@email.com",
+    "status": "CONCLUIDA"
+  },
+  {
+    "id": 4,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 5,
     "cursoId": 1,
     "aluno": "Emily Sibia de Paula",
     "email": "emily@email.com",
@@ -177,13 +338,27 @@
   },
   {
     "id": 2,
+    "cursoId": 2,
+    "aluno": "Emily Sibia de Paula",
+    "email": "emily@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 4,
+    "cursoId": 1,
+    "aluno": "Eduarda Kramer dos Santos",
+    "email": "eduarda@email.com",
+    "status": "ATIVA"
+  },
+  {
+    "id": 5,
     "cursoId": 1,
     "aluno": "Emily Sibia de Paula",
     "email": "emily@email.com",
     "status": "ATIVA"
   },
   {
-    "id": 3,
+    "id": 6,
     "cursoId": 2,
     "aluno": "Lucas Silva",
     "email": "lucas@email.com",
@@ -211,7 +386,7 @@
 18. PATCH /matriculas/2 (altera só o status)
 {
   "id": 2,
-  "cursoId": 1,
+  "cursoId": 2,
   "aluno": "Emily Sibia de Paula",
   "email": "emily@email.com",
   "status": "CANCELADA"
